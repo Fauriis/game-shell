@@ -1,6 +1,24 @@
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { FourOhFour, Home, Play } from "./pages";
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Home></Home>
+  },
+  {
+    path: '*',
+    element: <FourOhFour></FourOhFour>
+  },
+  {
+    path: '/play',
+    element: <Play></Play>
+  },
+]);
+
 function App() {
   return (
-    <h1 className="bg-red-500">hei</h1>
+<RouterProvider router={router}></RouterProvider>
   );
 }
 
