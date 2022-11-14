@@ -1,5 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { FourOhFour, Home, Play } from "./pages";
+import { Profile } from "./pages/Profile";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
   {
     path: "/play",
     element: <Play></Play>,
+  },
+  {
+    path:'/profile',
+    element: <Profile></Profile>
   },
 ]);
 
