@@ -3,7 +3,7 @@ import { Footer } from "../components/common/footer";
 
 export const Layout = ({ children }) => {
   return (
-    <>
+
       <div className="flex flex-col min-h-screen">
         <header className="shadow py-4">
           <Header></Header>
@@ -15,6 +15,6 @@ export const Layout = ({ children }) => {
           <Footer></Footer>
         </footer>
       </div>
-    </>
+
   );
 };

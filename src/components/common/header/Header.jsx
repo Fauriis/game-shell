@@ -1,9 +1,13 @@
 import { SiRiotgames } from "react-icons/si";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { logout } from "../../../store/actions/authActions";
+import { GoogleLogin } from "../../auth/";
+import { Button } from "../ui";
 
 
 export const Header = () => {
+  const dispatch = useDispatch();
   const { authenticated } = useSelector(({ auth }) => {
     const { authenticated } = auth;
 
@@ -14,12 +18,27 @@ export const Header = () => {
     <div className="container mx-auto px-4 flex justify-between">
       <h1 className="uppercase font-bold text-lg inline-block">
         <Link to="/" title="Home" className="flex gap-3">
-          <SiRiotgames size={32} className="inline-block"></SiRiotgames>
+          <SiRiotgames size={32} className="inline-block hover:animate-pulse"></SiRiotgames>
           Game Shell
         </Link>
       </h1>
 
-      <div>{JSON.stringify(authenticated)}</div>
+      <div>
+        {authenticated ? (
+          <Button
+            type="button"
+            onClick={() => {
+              dispatch(logout());
+            }}
+            skin="primaryInverted"
+            title="Log out"
+          >
+            Log out
+          </Button>
+        ) : (
+          <GoogleLogin></GoogleLogin>
+        )}
+      </div>
     </div>
   );
 };
