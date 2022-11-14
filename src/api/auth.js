@@ -10,7 +10,7 @@ export const initializeGoogleAuth = async () => {
       /* global google */
       google.accounts.id.initialize({
         client_id:
-          '',
+          '970010418035-stkvov1kdl229kqs1uvvmoqtpj9t1635.apps.googleusercontent.com',
         callback: (response) => {
           console.log(response);
         },
