@@ -1,7 +1,7 @@
 import { SiRiotgames } from "react-icons/si";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { logout } from "../../../store/actions/authActions";
+import { unsetUser } from "../../../store/actions/authActions";
 import { GoogleLogin } from "../../auth/";
 import { Button } from "../ui";
 
@@ -18,7 +18,7 @@ export const Header = () => {
     <div className="container mx-auto px-4 flex justify-between">
       <h1 className="uppercase font-bold text-lg inline-block">
         <Link to="/" title="Home" className="flex gap-3">
-          <SiRiotgames size={32} className="inline-block hover:animate-pulse"></SiRiotgames>
+          <SiRiotgames size={32} className="inline-block hover:animate-ping"></SiRiotgames>
           Game Shell
         </Link>
       </h1>
@@ -28,7 +28,7 @@ export const Header = () => {
           <Button
             type="button"
             onClick={() => {
-              dispatch(logout());
+           dispatch(unsetUser())
             }}
             skin="primaryInverted"
             title="Log out"
