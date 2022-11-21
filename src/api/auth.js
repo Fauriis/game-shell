@@ -1,8 +1,8 @@
 import jwtDecode from "jwt-decode";
 import store from "../store";
 
-import {setUser} from '../store/actions/authActions/index'
-
+import { setUser } from "../store/actions/authActions/index";
+import { createUserProfile, readUserProfile } from "../store/actions/profileActions/profileActions";
 
 let initialized = false;
 const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
@@ -16,8 +16,7 @@ export const initializeGoogleAuth = async () => {
     window.addEventListener("load", () => {
       /* global google */
       google.accounts.id.initialize({
-        client_id:
-          clientId,
+        client_id: clientId,
         callback: (response) => {
           const {
             given_name: firstName,
@@ -25,17 +24,32 @@ export const initializeGoogleAuth = async () => {
             email,
             picture: avatar,
             sub: id,
-            name
+            name,
           } = jwtDecode(response.credential);
 
-          store.dispatch(setUser({
-            firstName,
-            lastName,
-            email,
-            avatar,
-            id,
-            name
-          }));
+          store.dispatch(
+            setUser({
+              firstName,
+              lastName,
+              email,
+              avatar,
+              id,
+              name,
+            })
+          );
+
+          store
+            .dispatch(readUserProfile(id))
+            .then((data) => {
+              console.log(data);
+              // redux
+            })
+            .catch((error) => {
+              store.dispatch(createUserProfile({
+                id,
+                creature: {}
+              }))
+            });
         },
         scope: "email profile",
       });
