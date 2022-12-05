@@ -1,23 +1,28 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { FourOhFour, Home, Play } from "./pages";
-import { Profile } from "./pages/Profile";
+import { FourOhFour, Home, Play, Profile, Ranks } from "./pages";
+
+
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Home></Home>,
   },
   {
-    path: "*",
-    element: <FourOhFour></FourOhFour>,
-  },
-  {
-    path: "/play",
+    path: '/play',
     element: <Play></Play>,
   },
   {
-    path:'/profile',
-    element: <Profile></Profile>
+    path: '/profile',
+    element: <Profile></Profile>,
+  },
+  {
+    path: '/ranks',
+    element: <Ranks></Ranks>,
+  },
+  {
+    path: '*',
+    element: <FourOhFour></FourOhFour>,
   },
 ]);
 

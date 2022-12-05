@@ -1,31 +1,59 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCreatureColors } from "../../store/actions/profileActions/profileActions";
+import {
+  setCreatureColor,
+  updateUserProfile,
+} from "../../store/actions/profileActions/profileActions";
 import { Button } from "../common/ui";
+
+import { TbDeviceFloppy, TbFidgetSpinner } from "react-icons/tb";
 
 export const ProfileForm = () => {
   const dispatch = useDispatch();
-  const { mainColor, eyeColor, secondaryColor} = useSelector(({ profile }) => {
+  const [busy, setBusy] = useState(true);
+
+  const { mainColor, eyeColor, secondaryColor } = useSelector(({ profile }) => {
     const { mainColor, eyeColor, secondaryColor } = profile.creature;
 
     return { mainColor, eyeColor, secondaryColor };
   });
 
+  const { userId } = useSelector(({ auth }) => {
+    const { user } = auth;
+
+    return {
+      userId: user.id,
+    };
+  });
+
   const onColorPickerChange = (event) => {
-    const element = event.currenTarget;
+    const element = event.currentTarget;
     const targetKey = element.id;
     const colorValue = element.value;
 
-    dispatch(setCreatureColors(targetKey, colorValue));
+    dispatch(setCreatureColor(targetKey, colorValue));
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
+
+    setBusy(true);
+
+    await dispatch(
+      updateUserProfile(userId, {
+        mainColor,
+        eyeColor,
+        secondaryColor,
+      })
+    );
+
+    setBusy(false);
   };
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
       <div className="flex justify-between">
-        <label htmlFor="mainColor">Main color</label>
+        <label htmlFor="mainColor">Main Color</label>
 
         <input
           type="color"
@@ -37,7 +65,7 @@ export const ProfileForm = () => {
       </div>
 
       <div className="flex justify-between">
-        <label htmlFor="secondaryColor">Secondary color</label>
+        <label htmlFor="secondaryColor">Secondary Color</label>
 
         <input
           type="color"
@@ -49,7 +77,7 @@ export const ProfileForm = () => {
       </div>
 
       <div className="flex justify-between">
-        <label htmlFor="eyeColor"> Eye color</label>
+        <label htmlFor="eyeColor">Eye Color</label>
 
         <input
           type="color"
@@ -61,8 +89,19 @@ export const ProfileForm = () => {
       </div>
 
       <div className="text-center">
-        <Button type="submit" title="save">
-          Save
+        <Button type="submit" title="Save" className="gap-2 items-center" disabled={busy}>
+          {busy ? (
+            <>
+              {" "}
+              <TbFidgetSpinner className="animate-spin mr-2 inline-block"></TbFidgetSpinner>
+              Saving{" "}
+            </>
+          ) : (
+            <>
+            <TbDeviceFloppy className="mr-2 inline-block"></TbDeviceFloppy>
+            Save
+            </>
+          )}
         </Button>
       </div>
     </form>
